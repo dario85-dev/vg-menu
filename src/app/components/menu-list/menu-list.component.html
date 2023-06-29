@@ -1,0 +1,42 @@
+
+<mat-list *ngIf="menuLoader$ | async as menu else loaderTemplate">
+  <div class="grid-container">
+
+    <mat-grid-list *ngFor="let item of menu.menu" cols="2" rowHeight="100px">
+      <mat-card  class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title >
+
+            <div class="container" style="display: flex">
+              <div>{{item.name}}  : </div>
+
+              <div>{{item.price}}e</div>
+            </div>
+
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" style="height: 200px">
+          <button mat-raised-button color="primary"  (click)="remove(item)" ><i class="material-icons" >exposure_minus_1</i></button>
+          <mat-form-field appearance="fill">
+            <input matInput type="number" [(ngModel)]="item.quantity" min="0">
+          </mat-form-field>
+          <button mat-raised-button color="accent"  (click)="add(item)" ><i class="material-icons" >plus_one</i></button>
+          <mat-form-field appearance="fill">
+            <input readonly matInput type="number" [value]="sumOfQuantities(item)"  min="0">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+
+    </mat-grid-list>
+    <div class="divider" style="height: 1px; background-color: #ccc; margin: 8px 0;"></div>
+  </div>
+</mat-list>
+
+
+
+<ng-template #loaderTemplate>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+
+
