@@ -21,13 +21,15 @@ import { LayoutModule } from '@angular/cdk/layout';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
+import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuListComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrderConfirmationComponent
   ],
   imports: [
     BrowserModule,

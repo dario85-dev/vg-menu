@@ -6,3 +6,18 @@
 .quantity-control button {
   margin: 0 4px;
 }
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+
+.vg-logo {
+  height: 55px;
+}
+
+.list-wrapper {
+  max-width: 500px;
+  margin: auto;
+}

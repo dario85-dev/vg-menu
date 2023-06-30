@@ -1,0 +1,45 @@
+.list {
+  padding-bottom: 125px;
+  padding-top: 50px;
+}
+
+.title-row {
+  color: darkslategray;
+}
+.btn-wrapper {
+  .btn-light {
+    background-color: #e6e6e6;
+    font-weight: 600;
+  }
+}
+
+.item-total {
+  font-weight: 600;
+}
+
+.total-wrapper {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: -1px -2px 8px #ebdddd;
+  border-radius: 1em 1em 0 0;
+  transform: translateY(+100%);
+  transition: 1s ease all;
+  z-index: 2;
+  &.show {
+    transform: translateY(0);
+    transition: 0.4s ease all;
+  }
+  &.recap {
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.recap-list {
+  max-height: calc(100vh - 250px);
+  overflow: auto;
+}

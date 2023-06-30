@@ -1,6 +1,6 @@
 
-<mat-list *ngIf="menuLoader$ | async as menu else loaderTemplate">
-  <div class="grid-container">
+<mat-list *ngIf="menuLoader$ | async as menu else loaderTemplate" class="px-4 py-3">
+<!--  <div class="grid-container">
 
     <mat-grid-list *ngFor="let item of menu.menu" cols="2" rowHeight="100px">
       <mat-card  class="dashboard-card">
@@ -30,8 +30,187 @@
 
     </mat-grid-list>
     <div class="divider" style="height: 1px; background-color: #ccc; margin: 8px 0;"></div>
+  </div>-->
+<div class="list" >
+  <div class="row" *ngFor="let item of menu.menu">
+    <!--title line-->
+    <div class="col-12 title-row d-flex justify-content-between" >
+      <div class="title">{{item.name}}</div>
+      <!--    <div class="price">
+            {{item.price}} €
+          </div>-->
+    </div>
+    <!--qty line-->
+    <div class="col-12 border-bottom pb-2 mb-2 d-flex align-items-center justify-content-between">
+      <div class="btn-wrapper">
+        <!--button qty-->
+        <div class="btn-group" role="group" aria-label="">
+          <button type="button"
+                  class="btn btn-light"
+                  (click)="remove(item)">-
+          </button>
+
+          <div class="btn btn-light">{{item.quantity}}</div>
+
+          <button type="button"
+                  class="btn btn-light"
+                  (click)="add(item)">+
+          </button>
+        </div>
+      </div>
+
+      <div class="item-total">
+        <ng-container *ngIf="sumOfQuantities(item)>0 else price">{{sumOfQuantities(item)}} €</ng-container>
+        <ng-template #price><span class="text-black-50">{{item.price}} €</span></ng-template>
+      </div>
+    </div>
   </div>
+</div>
+
+
+
 </mat-list>
+
+
+
+
+<!--PANNELLO SOTTO-->
+
+<div class="total-wrapper bg-white p-4" [class.show]="totalCost>0" [class.recap]="showRecap">
+
+  <!--recap-->
+  <div class="recap-wrapper" *ngIf="showRecap">
+    <!--fake text-->
+    <div class="fw-bold text-black-50 mb-2">Riepilogo ordine</div>
+
+    <div class="recap-list border-bottom mb-2">
+      <!--TODO inserire lista-->
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Pizza</div>
+        <div class="text-black-50">10 €</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="text-black-50">Bevanda</div>
+        <div class="text-black-50">2 €</div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+  <!--totale-->
+  <div class="d-flex justify-content-between flex-grow-1">
+    <div class="fw-bold">Totale</div>
+    <div class="fw-bold">{{totalCost}} €</div>
+  </div>
+
+  <!--bottone riepilogo-->
+  <div class="mt-2" *ngIf="!showRecap">
+    <button class="btn btn-warning w-100 fw-bold" (click)="showRecap = true">VAI AL RIEPILOGO</button>
+  </div>
+
+  <!--bottone riepilogo-->
+  <div class="mt-2" *ngIf="showRecap">
+    <button class="btn btn-success w-100 fw-bold">CONFERMA E INVIA</button>
+    <button class="btn btn-sm btn-light w-100 mt-2" (click)="showRecap = false">Annulla</button>
+  </div>
+
+
+</div>
 
 
 
