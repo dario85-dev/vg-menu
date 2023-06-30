@@ -8,7 +8,7 @@ import {map, tap} from "rxjs/operators";
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
-  styleUrls: ['./menu-list.component.css']
+  styleUrls: ['./menu-list.component.scss']
 })
 export class MenuListComponent {
   constructor(private _http: HttpClient) {
