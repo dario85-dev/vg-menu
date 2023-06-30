@@ -1,44 +1,11 @@
 
 <mat-list *ngIf="menuLoader$ | async as menu else loaderTemplate" class="px-4 py-3">
-<!--  <div class="grid-container">
 
-    <mat-grid-list *ngFor="let item of menu.menu" cols="2" rowHeight="100px">
-      <mat-card  class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title >
-
-            <div class="container" style="display: flex">
-              <div>{{item.name}}  : </div>
-
-              <div>{{item.price}}e</div>
-            </div>
-
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content" style="height: 200px">
-          <button mat-raised-button color="primary"  (click)="remove(item)" ><i class="material-icons" >exposure_minus_1</i></button>
-          <mat-form-field appearance="fill">
-            <input matInput type="number" [(ngModel)]="item.quantity" min="0">
-          </mat-form-field>
-          <button mat-raised-button color="accent"  (click)="add(item)" ><i class="material-icons" >plus_one</i></button>
-          <mat-form-field appearance="fill">
-            <input readonly matInput type="number" [value]="sumOfQuantities(item)"  min="0">
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-
-
-    </mat-grid-list>
-    <div class="divider" style="height: 1px; background-color: #ccc; margin: 8px 0;"></div>
-  </div>-->
 <div class="list" >
   <div class="row" *ngFor="let item of menu.menu">
     <!--title line-->
     <div class="col-12 title-row d-flex justify-content-between" >
       <div class="title">{{item.name}}</div>
-      <!--    <div class="price">
-            {{item.price}} €
-          </div>-->
     </div>
     <!--qty line-->
     <div class="col-12 border-bottom pb-2 mb-2 d-flex align-items-center justify-content-between">
@@ -84,24 +51,30 @@
     <div class="fw-bold text-black-50 mb-2">Riepilogo ordine</div>
 
     <div class="recap-list border-bottom mb-2">
-      <!--TODO inserire lista-->
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="text-black-50">Pizza</div>
-        <div class="text-black-50">10 €</div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="text-black-50">Bevanda</div>
-        <div class="text-black-50">2 €</div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="text-black-50">Pizza</div>
-        <div class="text-black-50">10 €</div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="text-black-50">Bevanda</div>
-        <div class="text-black-50">2 €</div>
-      </div>
+      <div class="d-flex justify-content-between align-items-center" *ngFor="let item of menu.menu">
+        <span *ngIf="item.quantity && item.quantity > 0">
+          <div class="text-black-50">{{item.quantity}} x {{item.name}}</div>
+          <div class="text-black-50">{{item.price * item.quantity}} €</div>
+        </span>
 
+      </div>
+      <!--TODO inserire lista-->
+<!--      <div class="d-flex justify-content-between align-items-center">-->
+<!--        <div class="text-black-50">Pizza</div>-->
+<!--        <div class="text-black-50">10 €</div>-->
+<!--      </div>-->
+<!--      <div class="d-flex justify-content-between align-items-center">-->
+<!--        <div class="text-black-50">Bevanda</div>-->
+<!--        <div class="text-black-50">2 €</div>-->
+<!--      </div>-->
+<!--      <div class="d-flex justify-content-between align-items-center">-->
+<!--        <div class="text-black-50">Pizza</div>-->
+<!--        <div class="text-black-50">10 €</div>-->
+<!--      </div>-->
+<!--      <div class="d-flex justify-content-between align-items-center">-->
+<!--        <div class="text-black-50">Bevanda</div>-->
+<!--        <div class="text-black-50">2 €</div>-->
+<!--      </div>-->
     </div>
 
 
