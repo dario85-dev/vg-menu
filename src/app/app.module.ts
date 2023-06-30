@@ -37,6 +37,7 @@ import { OrderConfirmationComponent } from './components/order-confirmation/orde
     RouterModule.forRoot([
       {path: '', component: DashboardComponent},
       {path: 'code', component: AppComponent},
+      {path: 'order-confirmation', component: OrderConfirmationComponent}
     ]),
     HttpClientModule,
     MatToolbarModule,
