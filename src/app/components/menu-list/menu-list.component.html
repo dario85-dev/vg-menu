@@ -2,7 +2,7 @@
 <mat-list *ngIf="menuLoader$ | async as menu else loaderTemplate" class="px-4 py-3">
 
 <div class="list" >
-  <div class="row" *ngFor="let item of menu.menu">
+  <div class="row" *ngFor="let item of menu">
     <!--title line-->
     <div class="col-12 title-row d-flex justify-content-between" >
       <div class="title">{{item.name}}</div>
@@ -17,7 +17,7 @@
                   (click)="remove(item)">-
           </button>
 
-          <div class="btn btn-light">{{item.quantity}}</div>
+          <div class="btn btn-light">{{item.qta}}</div>
 
           <button type="button"
                   class="btn btn-light"
@@ -51,30 +51,13 @@
     <div class="fw-bold text-black-50 mb-2">Riepilogo ordine</div>
 
     <div class="recap-list border-bottom mb-2">
-      <div class="d-flex justify-content-between align-items-center" *ngFor="let item of menu.menu">
-        <span *ngIf="item.quantity && item.quantity > 0">
-          <div class="text-black-50">{{item.quantity}} x {{item.name}}</div>
-          <div class="text-black-50">{{item.price * item.quantity}} €</div>
+      <div class="d-flex justify-content-between align-items-center" *ngFor="let item of menu">
+        <span *ngIf="item.qta && item.qta > 0">
+          <div class="text-black-50">{{item.qta}} x {{item.name}}</div>
+          <div class="text-black-50">{{item.price * item.qta}} €</div>
         </span>
 
       </div>
-      <!--TODO inserire lista-->
-<!--      <div class="d-flex justify-content-between align-items-center">-->
-<!--        <div class="text-black-50">Pizza</div>-->
-<!--        <div class="text-black-50">10 €</div>-->
-<!--      </div>-->
-<!--      <div class="d-flex justify-content-between align-items-center">-->
-<!--        <div class="text-black-50">Bevanda</div>-->
-<!--        <div class="text-black-50">2 €</div>-->
-<!--      </div>-->
-<!--      <div class="d-flex justify-content-between align-items-center">-->
-<!--        <div class="text-black-50">Pizza</div>-->
-<!--        <div class="text-black-50">10 €</div>-->
-<!--      </div>-->
-<!--      <div class="d-flex justify-content-between align-items-center">-->
-<!--        <div class="text-black-50">Bevanda</div>-->
-<!--        <div class="text-black-50">2 €</div>-->
-<!--      </div>-->
     </div>
 
 
@@ -94,7 +77,7 @@
 
   <!--bottone riepilogo-->
   <div class="mt-2" *ngIf="showRecap">
-    <button class="btn btn-success w-100 fw-bold" routerLink="/order-confirmation">CONFERMA E INVIA</button>
+    <button class="btn btn-success w-100 fw-bold" (click)="sendOrder()">CONFERMA E INVIA</button>
     <button class="btn btn-sm btn-light w-100 mt-2" (click)="showRecap = false">Annulla</button>
   </div>
 

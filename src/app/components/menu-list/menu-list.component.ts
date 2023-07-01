@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {MenuItem, MenuResponse} from "../../interfaces/interfaces";
+import {Observable, switchMap} from "rxjs";
+import {MenuItem} from "../../interfaces/interfaces";
 import {environment} from "../../../environments/environment";
 import {map, tap} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-menu-list',
@@ -11,78 +12,102 @@ import {map, tap} from "rxjs/operators";
   styleUrls: ['./menu-list.component.scss']
 })
 export class MenuListComponent {
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private _router: Router) {
   }
 
   showRecap: boolean = false;
+  receiptId: number = 0;
 
-  menuLoader$: Observable<MenuResponse> = this._http.get<MenuResponse>(environment.apiUrl).pipe(
-    map((response: MenuResponse) => {
-      response.menu.map((item: MenuItem) => {
-        item.quantity = 0;
+  menuLoader$: Observable<MenuItem[]> = this._http.get<MenuItem[]>(environment.apiUrl+'/menu').pipe(
+    map((response: MenuItem[]) => {
+      response.map((item: MenuItem) => {
+        item.qta = 0;
         return item;
       });
       return response;
     }),
-    tap((response: MenuResponse) => {
+    tap((response: MenuItem[]) => {
       this.menu = response;
 
     })
   );
   quantities: { [key: string]: number } = {};
   number: number = 0;
-  menu: MenuResponse = {
-    menu: []
-  }
+  menu: MenuItem[] = [];
 
   add(item: MenuItem){
-      if(item.quantity){
-        item.quantity += 1;
+      if(item.qta){
+        item.qta += 1;
       }else{
-        item.quantity = 1;
+        item.qta = 1;
       }
-
-    //TODO DARIO utilizzo solo per DEMO poi agganciare a quello vero
-    this.updateTotalCost()
+      this.updateTotalCost()
 
   }
 
   remove(item: MenuItem){
-    if(item.quantity){
-      item.quantity -= 1;
+    if(item.qta){
+      item.qta -= 1;
     }else{
-      item.quantity = 0;
+      item.qta = 0;
     }
-
-    //TODO DARIO utilizzo solo per DEMO poi agganciare a quello vero
     this.updateTotalCost()
   }
 
   sumOfQuantities(item  : MenuItem): number {
-    if(item.quantity){
-      return item.quantity *item.price;
+    if(item.qta){
+      return item.qta *item.price;
     }else return 0;
 
   }
-  costOfQuantities(item  : MenuItem): number {
-    if(this.quantities[item.name]> 0){
-      return this.quantities[item.name] * item.price;
-    }else return 0;
-  }
 
-  //TODO DARIO utilizzo solo per DEMO poi agganciare a quello vero
   totalCost:number=0;
   updateTotalCost(): number {
     this.totalCost=0;
-    this.menu.menu.forEach((item: MenuItem) => {
-      if(item.quantity){
-        this.totalCost += item.quantity * item.price;
+
+    this.menu.forEach((item: MenuItem) => {
+      if(item.qta){
+        this.totalCost += item.qta * item.price;
       }
     });
     return this.totalCost;
   }
 
+  getListForServer(){
+    const filteredMenu = this.menu.filter((item: MenuItem) => {
+      // @ts-ignore
+      return item.qta > 0;
+    });
+    return filteredMenu.map((item: MenuItem) => {
+      return {
+        name: item.name,
+        qta: item.qta
+      }
+    });
 
+  }
+
+  //ask to the server for a receipt id
+  getReceiptId(): Observable<any>  {
+    return this._http.get<{receiptId: number}>(environment.apiUrl + '/new_receipt_id')
+  }
+
+  //send the order to the server
+  sendOrderRequest(receipt_id: string): Observable<any> {
+    return this._http.post(environment.apiUrl + '/receipt?'+receipt_id, this.getListForServer())
+  }
+
+  //send the order to the server
+  sendOrder() {
+    this.getReceiptId().pipe(
+      switchMap((response: number) => {
+        this.receiptId = response;
+        return this.sendOrderRequest(this.receiptId.toString());
+      })
+    ).subscribe((response: any) => {
+      this._router.navigate(['/order-confirmation', this.receiptId]);
+    });
+  }
 
 
 }
