@@ -17,7 +17,13 @@ export class OrderConfirmationComponent implements OnInit{
   receiptId: number = 0;
   ngOnInit() {
     this._activatedRoute.params.subscribe(params => {
-      this.receiptId = +params['receiptId'];
+      //get the receiptId url param
+
+
+
+      this.receiptId = params['receiptId'];
+      console.log('PARAMS', params, this.receiptId);
+      
     });
   }
 

@@ -94,7 +94,7 @@ export class MenuListComponent {
 
   //send the order to the server
   sendOrderRequest(receipt_id: string): Observable<any> {
-    return this._http.post(environment.apiUrl + '/receipt?'+receipt_id, this.getListForServer())
+    return this._http.post(environment.apiUrl + '/receipt?id='+receipt_id, this.getListForServer())
   }
 
   //send the order to the server
@@ -105,7 +105,8 @@ export class MenuListComponent {
         return this.sendOrderRequest(this.receiptId.toString());
       })
     ).subscribe((response: any) => {
-      this._router.navigate(['/order-confirmation', this.receiptId]);
+      console.log(response);
+      this._router.navigate(['/order-confirmation', response.id]);
     });
   }
 
