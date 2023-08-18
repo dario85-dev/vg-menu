@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-order-confirmation',
@@ -11,7 +11,7 @@ export class OrderConfirmationComponent implements OnInit{
 
   //inject http client
 
-  constructor(private _activatedRoute: ActivatedRoute) {
+  constructor(private _activatedRoute: ActivatedRoute, private _router: Router) {
   }
 
   receiptId: number = 0;
@@ -23,8 +23,13 @@ export class OrderConfirmationComponent implements OnInit{
 
       this.receiptId = params['receiptId'];
       console.log('PARAMS', params, this.receiptId);
-      
+
     });
+  }
+
+  editSavedOrder(){
+    //navigate to the menu page
+    this._router.navigate(['menu-list', this.receiptId]);
   }
 
 }

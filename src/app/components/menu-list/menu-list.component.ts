@@ -1,22 +1,37 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, switchMap} from "rxjs";
 import {MenuItem} from "../../interfaces/interfaces";
 import {environment} from "../../../environments/environment";
 import {map, tap} from "rxjs/operators";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss']
 })
-export class MenuListComponent {
-  constructor(private _http: HttpClient, private _router: Router) {
+export class MenuListComponent implements OnInit{
+  constructor(private _http: HttpClient, private _router: Router, private _activatedRoute: ActivatedRoute) {
   }
 
   showRecap: boolean = false;
   receiptId: number = 0;
+  orderId: number = 0;
+
+
+  ngOnInit(): void {
+    //get order id from url if exists
+    this._activatedRoute.params.subscribe(params => {
+      this.orderId = params['orderID'];
+      //if order exist try to get order details
+      if (this.orderId) {
+        this.getOrderDetails();
+      }
+    });
+  }
+
+
 
   menuLoader$: Observable<MenuItem[]> = this._http.get<MenuItem[]>(environment.apiUrl+'/menu').pipe(
     map((response: MenuItem[]) => {
@@ -109,6 +124,15 @@ export class MenuListComponent {
       this._router.navigate(['/order-confirmation', response.id]);
     });
   }
+
+
+  //TODO DOY
+  getOrderDetails(){
+    //get order details from server using orderID
+    //if successfull populate recap with order details
+  }
+
+
 
 
 }
